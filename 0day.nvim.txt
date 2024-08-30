@@ -1,0 +1,81 @@
+Neovim Plugin for Pen Testers and Bug Bounty Hunters: Feature and Workflow Overview
+Core Features
+
+    Markdown-Based Note-Taking and File Generation
+
+        Tagging System:
+            Use specific tags in markdown files to differentiate between notes and content meant for file generation.
+            Tags:
+                @note: for regular notes.
+                @generate: for content that should be converted into .txt files.
+
+        Automatic File Generation:
+            The plugin scans the markdown file for @generate: tags, extracts the content, and creates corresponding .txt files.
+            Generated files are named systematically, e.g., output_YYYYMMDD_HHMMSS.txt.
+
+    Key Mapping for Recent File Management
+        Open the Most Recent File:
+            A keymap (e.g., <leader>rf) opens the most recently created or modified file in a new split pane within Neovim.
+        Process Completion Notifications:
+            After running a command or generating a file, the plugin notifies the user with a message like "Process Complete: output.txt created."
+        Handling Multiple Processes:
+            Users can open specific recent files related to different processes using an identifier (e.g., :OpenRecentFile [process_id]).
+
+    CLI Tool Template Management
+        Template Definition:
+            Define templates for various CLI tools in YAML or Lua, specifying command structure, input placeholders, and output management.
+        Automatic Output File Management:
+            Each template can include an "output" field with dynamic naming (e.g., using timestamps) to ensure outputs are well-organized and traceable.
+        Integrated Tool Execution:
+            Run CLI tools directly from Neovim using the template, with automatic management of input files and output generation.
+
+    Custom Workflows and Automation
+        Always-On Output Tags:
+            Templates can include always-on output tags, ensuring every command run via the plugin has its output saved and managed automatically.
+        Interactive File and Process Management:
+            Commands like :RunTool and :OpenRecentFile streamline the process of running tools and managing their outputs within the editor.
+        File Tracking and Management:
+            The plugin tracks recently generated files and allows easy access through key mappings and commands.
+
+Example Workflows
+
+    Reconnaissance Phase with Markdown Notes and File Generation
+        The pen tester creates a markdown file with notes and @generate: tags to define lists of IPs, domains, etc.
+        Running a command like :GenerateFiles my_recon_notes.md generates necessary .txt files (e.g., ips.txt, domains.txt).
+        These files are then used as input for tools like nmap, gobuster, etc.
+
+    Running a Tool and Managing Outputs
+        The tester runs a tool using a predefined template, e.g., :RunTool nmap ips.txt -p80.
+        The plugin automatically manages the command execution, saving the output to a file (e.g., nmap_output_YYYYMMDD_HHMMSS.txt).
+        Upon completion, the plugin notifies the tester, and they can immediately open the file using <leader>rf.
+
+    Template-Driven Automation
+        A tester prepares templates for commonly used tools like nmap, gobuster, and sqlmap.
+        Each template defines the command structure and where the output should go.
+        By simply running :RunTool tool_name input_file options, the tester can execute complex commands with consistent output management.
+
+    Reviewing Outputs from Multiple Processes
+        The tester runs multiple processes concurrently.
+        Each process's output is tracked, and the tester can open the most recent one with <leader>rf or cycle through them with :OpenRecentFile [process_id].
+
+Additional Ideas for Future Expansion
+
+    Improved Parsing and Error Handling
+        Implement more sophisticated parsing of markdown files, including error handling for missing tags or improperly formatted lines.
+        Consider adding support for more complex content within @generate: tags, such as conditionals or loops.
+
+    Interactive File Selection
+        Integrate with tools like Telescope for fuzzy searching through generated files, making it easier to find and open specific outputs.
+        Allow users to tag files with metadata or notes for easier retrieval.
+
+    Integration with External Tools
+        Consider integrating the plugin with external tools like Zap or Burp Suite for more advanced automation.
+        Implement features to fetch and parse results from these tools, feeding them back into the workflow.
+
+    Advanced Output Management
+        Add options for automatic PDF generation from markdown files, including formatted notes and output summaries.
+        Implement a mechanism to auto-archive outputs after a testing session, organizing them by project or date.
+
+    Customization and User Configuration
+        Allow users to customize key mappings, template locations, and output file naming conventions.
+        Add support for user-defined tags beyond @note: and @generate:, enabling more flexible workflows.
